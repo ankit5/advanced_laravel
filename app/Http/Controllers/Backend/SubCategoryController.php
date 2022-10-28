@@ -88,6 +88,17 @@ class SubCategoryController extends Controller
 
     public function SubCategoryDelete($id){
 
+        $subsubcategories = SubSubCategory::where('subcategory_id',$id)->count();
+
+        if($subsubcategories > 0){
+         $notification = array(
+            'message' => 'SubCategory Has Subcategory',
+            'alert-type' => 'error'
+        );
+
+        return redirect()->back()->with($notification);
+        }
+
     	SubCategory::findOrFail($id)->delete();
 
     	$notification = array(

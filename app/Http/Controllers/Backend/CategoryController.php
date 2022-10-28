@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\SubCategory;
 
 class CategoryController extends Controller
 {
@@ -78,6 +79,16 @@ class CategoryController extends Controller
 
 
     public function CategoryDelete($id){
+
+         $subcategories = SubCategory::where('category_id',$id)->count();
+         if($subcategories > 0){
+         $notification = array(
+            'message' => 'Category Has Subcategory',
+            'alert-type' => 'error'
+        );
+
+        return redirect()->back()->with($notification);
+        }
 
     	Category::findOrFail($id)->delete();
 
