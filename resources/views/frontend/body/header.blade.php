@@ -7,8 +7,8 @@
         <div class="cnt-account">
           <ul class="list-unstyled">
             <li><a href="#"><i class="icon fa fa-user"></i>My Account</a></li>
-            <li><a href="#"><i class="icon fa fa-heart"></i>Wishlist</a></li>
-            <li><a href="#"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
+             <li><a href="{{ route('wishlist') }}"><i class="icon fa fa-heart"></i>Wishlist</a></li>
+            <li><a href="{{ route('mycart') }}"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
             <li><a href="#"><i class="icon fa fa-check"></i>Checkout</a></li>
             <li><a href="{{ route('login') }}"><i class="icon fa fa-lock"></i>Login</a></li>
           </ul>
@@ -25,10 +25,10 @@
               </ul>
             </li>
             <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><span class="value">
-              @if(session()->get('language') == 'english')
-            English 
+              @if(session()->get('language') == 'hindi')
+              हिन्दी
             @else
-            हिन्दी
+           English
             @endif
           </span><b class="caret"></b></a>
               <ul class="dropdown-menu">
