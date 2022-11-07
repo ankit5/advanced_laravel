@@ -16,6 +16,11 @@ use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\ShippingAreaController;
+use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\StripeController;
+use App\Http\Controllers\User\AllUserController;
+use App\Http\Controllers\User\CashController;
 
 use App\Http\Controllers\Frontend\IndexController;
 /*
@@ -183,6 +188,17 @@ Route::get('/active/{id}', [SliderController::class, 'SliderActive'])->name('sli
 
 });
 
+// Admin Order All Routes 
+
+Route::prefix('orders')->group(function(){
+
+Route::get('/pending/orders', [OrderController::class, 'PendingOrders'])->name('pending-orders');
+Route::get('/pending/orders/details/{order_id}', [OrderController::class, 'PendingOrdersDetails'])->name('pending.order.details');
+
+
+
+});
+
 
 // Admin Coupons All Routes 
 
@@ -226,13 +242,17 @@ Route::get('/district/delete/{id}', [ShippingAreaController::class, 'DistrictDel
 // Ship State 
 Route::get('/state/view', [ShippingAreaController::class, 'StateView'])->name('manage-state');
 
-Route::post('/district/store', [ShippingAreaController::class, 'DistrictStore'])->name('district.store');
 
-Route::get('/district/edit/{id}', [ShippingAreaController::class, 'DistrictEdit'])->name('district.edit');
 
-Route::post('/district/update/{id}', [ShippingAreaController::class, 'DistrictUpdate'])->name('district.update');
+Route::post('/state/store', [ShippingAreaController::class, 'StateStore'])->name('state.store');
 
-Route::get('/district/delete/{id}', [ShippingAreaController::class, 'DistrictDelete'])->name('district.delete');
+
+Route::get('/state/edit/{id}', [ShippingAreaController::class, 'StateEdit'])->name('state.edit');
+
+Route::post('/state/update/{id}', [ShippingAreaController::class, 'StateUpdate'])->name('state.update');
+
+
+Route::get('/state/delete/{id}', [ShippingAreaController::class, 'StateDelete'])->name('state.delete');
 
 
 
@@ -297,6 +317,33 @@ Route::get('/get-cart-product', [CartPageController::class, 'GetCartProduct']);
 Route::get('/cart-remove/{rowId}', [CartPageController::class, 'RemoveCartProduct']);
 Route::get('/cart-increment/{rowId}', [CartPageController::class, 'CartIncrement']);
 Route::get('/cart-decrement/{rowId}', [CartPageController::class, 'CartDecrement']);
+
+// Frontend Coupon Option
+
+
+
 });
+
+Route::post('/coupon-apply', [CartController::class, 'CouponApply']);
+Route::get('/coupon-calculation', [CartController::class, 'CouponCalculation']);
+Route::get('/coupon-remove', [CartController::class, 'CouponRemove']);
+
+// Checkout Routes 
+
+Route::get('/checkout', [CartController::class, 'CheckoutCreate'])->name('checkout');
+Route::post('/checkout/store', [CheckoutController::class, 'CheckoutStore'])->name('checkout.store');
+
+Route::get('/district-get/ajax/{division_id}', [CheckoutController::class, 'DistrictGetAjax']);
+
+Route::get('/state-get/ajax/{district_id}', [CheckoutController::class, 'StateGetAjax']);
+
+Route::post('/stripe/order', [StripeController::class, 'StripeOrder'])->name('stripe.order');
+Route::post('/cash/order', [CashController::class, 'CashOrder'])->name('cash.order');
+
+Route::get('/my/orders', [AllUserController::class, 'MyOrders'])->name('my.orders');
+Route::get('/user/order_details/{order_id}', [AllUserController::class, 'OrderDetails']);
+
+Route::get('/user/invoice_download/{order_id}', [AllUserController::class, 'InvoiceDownload']);
+
 
 
